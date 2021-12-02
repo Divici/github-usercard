@@ -8,7 +8,7 @@ import axios from 'axios';
 axios.get(`https://api.github.com/users/Divici`)
     .then(resp => {
       console.log(resp);
-      cardCreator(resp.data);
+      document.querySelector('.cards').appendChild(cardCreator(resp.data));
     })
     .catch(error => {
       console.error(error);
@@ -90,8 +90,19 @@ function cardCreator(user){
   name.classList.add('name');
   username.classList.add('username');
 
+  userImg.textContent = user['avatar_url'];
+  name.textContent = user['name'];
+  username.textContent = user['login'];
+  location.textContent = user['location'];
+  profileLink.textContent = user['html_url'];
+  followers.textContent = user['followers'];
+  following.textContent = user['following'];
+  bio.textContent = user['bio'];
+
   return cardDiv;
 }
+
+document.querySelector('.cards').appendChild(cardCreator())
 
 /*
   List of LS Instructors Github username's:
