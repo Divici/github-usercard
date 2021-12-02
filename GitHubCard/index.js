@@ -1,8 +1,21 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+const myUsername = 'Divici';
+
+function getUser(name){
+  axios.get(`https://api.github.com/users/${name}`)
+    .then(resp => {
+      document.querySelector('.cards').appendChild(cardCreator(resp.data));
+    })
+    .catch(error => {
+      console.error(error);
+    })
+}
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +41,14 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+//Add my username to the array
+followersArray.push(myUsername);
+
+followersArray.forEach(user =>{
+  getUser(user);
+});
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -50,11 +70,44 @@ const followersArray = [];
     </div>
 */
 
-/*
-  List of LS Instructors Github username's:
-    tetondan
-    dustinmyers
-    justsml
-    luishrd
-    bigknell
-*/
+function cardCreator(user){
+  //create card elements
+  const cardDiv = document.createElement('div');
+  const userImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  //structure
+  cardDiv.appendChild(userImg);
+  cardDiv.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(profileLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  //Info and Classes
+  cardDiv.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
+
+  userImg.src = user['avatar_url'];
+  name.textContent = user['name'];
+  username.textContent = user['login'];
+  location.textContent = user['location'];
+  profileLink.textContent = user['html_url'];
+  followers.textContent = user['followers'];
+  following.textContent = user['following'];
+  bio.textContent = user['bio'];
+
+  return cardDiv;
+}
