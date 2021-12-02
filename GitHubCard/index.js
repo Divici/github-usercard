@@ -4,7 +4,16 @@ import axios from 'axios';
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-const URL = 'https://api.github.com/users/Divici'
+
+axios.get(`https://api.github.com/users/Divici`)
+    .then(resp => {
+      console.log(resp);
+      cardCreator(resp.data);
+    })
+    .catch(error => {
+      console.error(error);
+    })
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -51,7 +60,7 @@ const followersArray = [];
     </div>
 */
 
-function cardCreator(obj){
+function cardCreator(user){
   //create card elements
   const cardDiv = document.createElement('div');
   const userImg = document.createElement('img');
@@ -75,6 +84,11 @@ function cardCreator(obj){
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
+  //Info and Classes
+  cardDiv.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
 
   return cardDiv;
 }
